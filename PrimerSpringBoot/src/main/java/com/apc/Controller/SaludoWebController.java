@@ -13,10 +13,10 @@ public class SaludoWebController {
     @Autowired
     private SaludoService saludoService;
 
-    @RequestMapping("saludo")
+    @RequestMapping("principal")
     public ModelAndView saludo(SaludoEntity saludoEntity){
         ModelAndView mv = new ModelAndView();
-        mv.setViewName("index");
+        mv.setViewName("principal");
         mv.addObject("saludo", saludoService.saludo(saludoEntity));
         return mv;
     }
