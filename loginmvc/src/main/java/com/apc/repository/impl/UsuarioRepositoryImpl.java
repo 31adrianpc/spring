@@ -20,7 +20,9 @@ public class UsuarioRepositoryImpl implements UsuarioRepository{
 
     @Override
     public UsuarioEntity validarUsuario(UsuarioEntity usuario) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'validarUsuario'");
+        return listaUsuarios.stream()
+            .filter(u -> u.getUser().equals(usuario.getUser()) && u.getPassword().equals(usuario.getPassword()))
+            .findFirst()
+            .orElse(null);
     }
 }
