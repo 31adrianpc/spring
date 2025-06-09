@@ -1,0 +1,44 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Mantenimiento usuarios</title>
+    </head>
+    <body>
+        <h1>Hola, <span th:text="${usuario.nombreApellido}"></span> </h1>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nombre</th>
+                    <th>User</th>
+                    <th>Estado</th>
+                    <th>Foto</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="usuario:${listaUsuarios}">
+                    <td th:text="${usuario.idUsuario}"></td>
+                    <td th:text="${usuario.nombreApellido}"></td>
+                    <td th:text="${usuario.user}"></td>
+                    <td th:text="${usuario.estado}"></td>
+                    <!-- El navegador no puede manejar datos binarios. data:image/jpeg;base64 le indica
+                    que el contenido es una imagen en formato Base64 -->
+                    <td>
+                        <img th:if="${usuario.foto}" width="50px" height="50px" th:src="'data:image/jpeg;base64, ' + ${usuario.fotoBase64}">
+                    </td>
+                    <td>
+                        <a th:href="'eliminarUsuario?idUsuario=' + ${usuario.idUsuario}">E</a>
+                        <a th:href="'actualizarUsuario?idUsuario=' + ${usuario.idUsuario}">A</a>
+                    </td> 
+                </tr>
+            </tbody>
+        </table>
+        <a href="nuevoUsuario">Agregar Usuario</a>
+        <br>
+        <label th:text="${param.mensaje}" style="color:blue"></label>
+        <label th:text="${param.mensajeError}" style="color:red"></label>
+    </body>
+</html>

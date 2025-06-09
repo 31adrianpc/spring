@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Login</title>
+    </head>
+    <body>
+        <h1>Login</h1>
+        <form action="actionLogin" method="POST">
+            <table>
+                <!-- name="user" y name"password" deben coincidir con el 
+                     nombre de los atributos del objeto que estamos recibiendo
+                     en la url
+                     Cuando se presione el botón, nos llevará a la URL /actionLogin
+                     y pasará como atributos user y password.
+                -->
+                
+                <tr>
+                    <td><label>Usuario</label></td>
+                    <td><input type="text" name="user" id="user"></td>
+                </tr>
+                <tr>
+                    <td><label>Password</label></td>
+                    <td><input type="password" name="password" id="password"></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input type="submit" value="Ingresar">
+                        <br>
+                        <label th:if="${mensajeError}" th:text="${mensajeError}"></label>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </body>
+</html>
