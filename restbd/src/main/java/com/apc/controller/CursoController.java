@@ -1,0 +1,108 @@
+package com.apc.controller;
+
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+//import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+//import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+//import org.springframework.web.server.ResponseStatusException;
+
+import com.apc.entity.CursoEntity;
+//import com.apc.entity.ErrorEntity;
+import com.apc.service.CursoService;
+
+@RestController
+@RequestMapping("api/v1/cursos")
+public class CursoController {
+    
+    @Autowired
+    private CursoService cursoService;
+
+    /*
+    @ExceptionHandler(ResponseStatusException.class)
+    private ResponseStatusException capturadorErrores(ResponseStatusException ex){
+        
+        En lugar de ResponseStatusException, cuando usabamos Exception y devolviamos un ErrorEntity
+        ErrorEntity error = new ErrorEntity();
+        String[] datosError = ex.getMessage().replaceAll("\"",";").split(";");
+        error.setStatus(datosError[0]);
+        error.setMensaje(datosError[1]);
+        error.setError(ex.getClass().getName());
+        return error;
+        
+        return ex;
+    }
+    */
+
+    @GetMapping
+    public ResponseEntity<List<CursoEntity>> listarCursos(){
+        try {
+            return ResponseEntity.ok(cursoService.listarCursos()); //Programación modular, utilizando métodos estáticos
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @GetMapping("/{idCurso}")
+    public ResponseEntity<CursoEntity> obtenerCurso(@PathVariable Integer idCurso){
+        try {
+            return new ResponseEntity<CursoEntity>(cursoService.obtenerCurso(idCurso), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<CursoEntity>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping
+    public ResponseEntity<CursoEntity> registrarCurso(@RequestBody CursoEntity curso){
+        try {
+            return ResponseEntity.status(HttpStatus.CREATED)
+                                 .header("AUTOR", "APC")
+                                 .header("FECHA", (new Date()).toString())
+                                 .body(cursoService.registrarCurso(curso));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                                 .header("AUTOR", "APC")
+                                 .header("FECHA", (new Date()).toString())
+                                 .build();
+        }
+    }
+
+    @PutMapping("/{idCurso}")
+    public ResponseEntity<CursoEntity> actualizarCurso(@PathVariable Integer idCurso, @RequestBody CursoEntity curso){
+        try {
+            curso.setIdCurso(idCurso);
+            return ResponseEntity.ok(cursoService.actualizarCurso(curso));    
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @DeleteMapping("/{idCurso}")
+    public ResponseEntity<String> eliminarCurso(@PathVariable Integer idCurso){
+        try {
+            CursoEntity curso = cursoService.obtenerCurso(idCurso);
+            if(curso != null){
+                return ResponseEntity.noContent().build();
+                //cursoService.eliminarCurso(idCurso);
+            }
+            else{
+                return ResponseEntity.notFound().build();
+            }    
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+
+}
