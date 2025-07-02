@@ -22,7 +22,11 @@ import com.apc.entity.CursoEntity;
 //import com.apc.entity.ErrorEntity;
 import com.apc.service.CursoService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
+@Tag(name = "API-Cursos", description = "Controlador para gestionar cursos")
 @RequestMapping("api/v1/cursos")
 public class CursoController {
     
@@ -46,6 +50,7 @@ public class CursoController {
     */
 
     @GetMapping
+    @Operation(summary = "Listar Cursos", description = "Obtiene una lista de todos los cursos disponibles")
     public ResponseEntity<List<CursoEntity>> listarCursos(){
         try {
             return ResponseEntity.ok(cursoService.listarCursos()); //Programación modular, utilizando métodos estáticos
@@ -55,8 +60,13 @@ public class CursoController {
     }
 
     @GetMapping("/{idCurso}")
+    @Operation(summary = "Obtener Curso", description = "Obtiene un curso de todos los disponibles a través de su ID")
     public ResponseEntity<CursoEntity> obtenerCurso(@PathVariable Integer idCurso){
         try {
+            CursoEntity curso = cursoService.obtenerCurso(idCurso);
+            if(curso == null){
+                return ResponseEntity.notFound().build();
+            }
             return new ResponseEntity<CursoEntity>(cursoService.obtenerCurso(idCurso), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<CursoEntity>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -64,6 +74,7 @@ public class CursoController {
     }
 
     @PostMapping
+    @Operation(summary = "Registrar Curso", description = "Registra un nuevo curso")
     public ResponseEntity<CursoEntity> registrarCurso(@RequestBody CursoEntity curso){
         try {
             return ResponseEntity.status(HttpStatus.CREATED)
@@ -79,6 +90,7 @@ public class CursoController {
     }
 
     @PutMapping("/{idCurso}")
+    @Operation(summary = "Actualizar Curso", description = "Actualiza un curso a través de su ID")
     public ResponseEntity<CursoEntity> actualizarCurso(@PathVariable Integer idCurso, @RequestBody CursoEntity curso){
         try {
             curso.setIdCurso(idCurso);
@@ -89,6 +101,7 @@ public class CursoController {
     }
 
     @DeleteMapping("/{idCurso}")
+    @Operation(summary = "Eliminar Curso", description = "Elimina un curso a través de su ID")
     public ResponseEntity<String> eliminarCurso(@PathVariable Integer idCurso){
         try {
             CursoEntity curso = cursoService.obtenerCurso(idCurso);
