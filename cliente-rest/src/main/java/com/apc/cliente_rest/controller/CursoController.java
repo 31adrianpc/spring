@@ -2,6 +2,7 @@ package com.apc.cliente_rest.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.apc.cliente_rest.service.CursoService;
@@ -12,6 +13,7 @@ public class CursoController {
     @Autowired
     private CursoService cursoService;
 
+    @RequestMapping(value = "/mantenimientoCursos")
     public ModelAndView listarCursos(){
         ModelAndView mv = new ModelAndView();
         mv.setViewName("mantenimientoCursos");

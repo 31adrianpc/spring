@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 //import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 //import org.springframework.web.server.ResponseStatusException;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 import com.apc.entity.CursoEntity;
 //import com.apc.entity.ErrorEntity;
@@ -53,7 +54,15 @@ public class CursoController {
     @Operation(summary = "Listar Cursos", description = "Obtiene una lista de todos los cursos disponibles")
     public ResponseEntity<List<CursoEntity>> listarCursos(){
         try {
-            return ResponseEntity.ok(cursoService.listarCursos()); //Programación modular, utilizando métodos estáticos
+            List<CursoEntity> cursos = cursoService.listarCursos();
+            cursos.forEach(curso -> {
+                curso.add(
+                    linkTo(
+                        methodOn(CursoController.class).obtenerCurso(curso.getIdCurso()) // Se agrega el enlace
+                    ).withRel("Ver el detalle del curso " + curso.getNombreCurso()) // Descripción del enlace
+                );
+            });
+            return ResponseEntity.ok(cursos); //Programación modular, utilizando métodos estáticos
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }

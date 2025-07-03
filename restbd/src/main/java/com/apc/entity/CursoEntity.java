@@ -2,6 +2,10 @@ package com.apc.entity;
 
 import java.util.Date;
 
+import org.springframework.hateoas.RepresentationModel;
+
+//import org.springframework.hateoas.RepresentationModel;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,7 +23,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "curso")
 @Schema(name = "Curso", description = "Entity de Curso")
-public class CursoEntity {
+public class CursoEntity extends RepresentationModel<CursoEntity> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
