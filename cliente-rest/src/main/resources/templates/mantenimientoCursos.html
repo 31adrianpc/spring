@@ -3,9 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Lista Cursos</title>
 </head>
 <body>
-    
+    <h1>Lista de cursos</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <td>IDCURSO</td>
+                <td>Nombre del curso</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="curso : ${listaCursos}">
+                <td th:text="${curso.idCurso}"></td>
+                <td th:text="${curso.nombreCurso}"></td>
+            </tr>
+        </tbody>
+
+    </table>
 </body>
 </html>

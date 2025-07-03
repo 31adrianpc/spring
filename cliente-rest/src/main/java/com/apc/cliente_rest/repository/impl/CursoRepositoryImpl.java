@@ -28,26 +28,26 @@ public class CursoRepositoryImpl implements CursoRepository{
 
     @Override
     public CursoEntity obtenerCurso(Integer idCUrso) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'obtenerCurso'");
+        return restTemplate.getForObject(URL_API, CursoEntity.class);
     }
 
     @Override
     public CursoEntity registrarCurso(CursoEntity curso) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'registrarCurso'");
+        return restTemplate.postForObject(URL_API, curso, CursoEntity.class);
     }
 
     @Override
     public CursoEntity actualizarCurso(CursoEntity curso) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'actualizarCurso'");
+        restTemplate.put(URL_API + "/" + curso.getIdCurso(), curso);
+        curso = obtenerCurso(curso.getIdCurso());
+        return curso;
     }
 
     @Override
     public CursoEntity eliminarCurso(Integer idCurso) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'eliminarCurso'");
+        CursoEntity curso = obtenerCurso(idCurso);
+        restTemplate.delete(URL_API + "/" + idCurso);
+        return curso;
     }
     
 }
