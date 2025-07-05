@@ -2,6 +2,7 @@ package com.apc.entity;
 
 import java.util.Date;
 
+import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.hateoas.RepresentationModel;
 
 //import org.springframework.hateoas.RepresentationModel;
@@ -23,6 +24,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "curso")
 @Schema(name = "Curso", description = "Entity de Curso")
+@RestResource(exported = false) // No exportamos este recurso dado que ya lo hemos personalizado en CursoController
 public class CursoEntity extends RepresentationModel<CursoEntity> {
 
     @Id
