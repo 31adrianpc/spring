@@ -25,8 +25,8 @@ import lombok.NoArgsConstructor;
 @Table(name = "curso")
 @Schema(name = "Curso", description = "Entity de Curso")
 @RestResource(exported = false) // No exportamos este recurso dado que ya lo hemos personalizado en CursoController
-public class CursoEntity extends RepresentationModel<CursoEntity> {
-
+public class CursoEntity extends RepresentationModel<CursoEntity> { // Para añadir enlaces gracias a HATEOAS
+ 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idcurso")

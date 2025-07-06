@@ -51,7 +51,7 @@ public class CursoController {
     */
 
     @GetMapping
-    @Operation(summary = "Listar Cursos", description = "Obtiene una lista de todos los cursos disponibles")
+    @Operation(summary = "Listar Cursos", description = "Obtiene una lista de todos los cursos disponibles") // 
     public ResponseEntity<List<CursoEntity>> listarCursos(){
         try {
             List<CursoEntity> cursos = cursoService.listarCursos();
@@ -76,7 +76,7 @@ public class CursoController {
             if(curso == null){
                 return ResponseEntity.notFound().build();
             }
-            return new ResponseEntity<CursoEntity>(cursoService.obtenerCurso(idCurso), HttpStatus.OK);
+            return new ResponseEntity<CursoEntity>(cursoService.obtenerCurso(idCurso), HttpStatus.OK); // POO
         } catch (Exception e) {
             return new ResponseEntity<CursoEntity>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -111,10 +111,11 @@ public class CursoController {
 
     @DeleteMapping("/{idCurso}")
     @Operation(summary = "Eliminar Curso", description = "Elimina un curso a través de su ID")
-    public ResponseEntity<String> eliminarCurso(@PathVariable Integer idCurso){
+    public ResponseEntity<Void> eliminarCurso(@PathVariable Integer idCurso){
         try {
             CursoEntity curso = cursoService.obtenerCurso(idCurso);
             if(curso != null){
+                cursoService.eliminarCurso(idCurso);
                 return ResponseEntity.noContent().build();
                 //cursoService.eliminarCurso(idCurso);
             }
