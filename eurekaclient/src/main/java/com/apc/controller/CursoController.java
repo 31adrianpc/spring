@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,14 +26,20 @@ import com.apc.service.CursoService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.java.Log;
 
 @RestController
 @Tag(name = "API-Cursos", description = "Controlador para gestionar cursos")
 @RequestMapping("api/v1/cursos")
+@Log // Oara probar ribbon
 public class CursoController {
     
     @Autowired
     private CursoService cursoService;
+
+    // Para ribbon
+    @Value("${server.port}")
+    private String puerto;
 
     /*
     @ExceptionHandler(ResponseStatusException.class)
@@ -62,6 +69,8 @@ public class CursoController {
                     ).withRel("Ver el detalle del curso " + curso.getNombreCurso()) // Descripción del enlace
                 );
             });
+            // Para ribbon
+            log.info("Puerto: " + puerto);
             return ResponseEntity.ok(cursos); //Programación modular, utilizando métodos estáticos
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
