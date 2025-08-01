@@ -3,6 +3,7 @@ package com.apc.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.apc.entity.UsuarioEntity;
@@ -15,9 +16,12 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
     @Override
     public List<UsuarioEntity> listarUsuarios() {
-        return usuarioRepository.findAll();
+        return usuarioRepository.findByEstado(1);
     }
 
     @Override
@@ -27,11 +31,16 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public UsuarioEntity registrarUsuario(UsuarioEntity usuario) {
+        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
         return usuarioRepository.save(usuario);
     }
 
     @Override
     public UsuarioEntity actualizarUsuario(UsuarioEntity usuario) {
+        UsuarioEntity usuarioTmp = obtenerUsuario(usuario.getIdUsuario());
+        if (!passwordEncoder.matches(usuario.getPassword(), usuarioTmp.getPassword())) {
+            usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+        }
         return usuarioRepository.save(usuario);
     }
 

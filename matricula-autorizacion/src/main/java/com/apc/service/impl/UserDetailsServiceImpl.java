@@ -38,7 +38,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         } else {
             throw new UsernameNotFoundException("Usuario no encontrado: " + username);
         }
-        UserDetails userDetails = new User(usuario.getUser(), "{noop}" + usuario.getPassword(), roles);
+        UserDetails userDetails = new User(usuario.getUser(), usuario.getPassword(), roles);
         return userDetails;
     }
     

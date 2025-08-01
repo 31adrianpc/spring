@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -25,6 +26,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(c -> c.disable())
             .authorizeHttpRequests(auth -> {
+                auth.requestMatchers("/css/**", "/js/**", "/images/**", "/vendor/**", "/fonts/**").permitAll(); // Recursos estáticos permitidos
                 auth.requestMatchers("/otrasRutas/**").permitAll(); // Cualquier usuario puede acceder
                 auth.requestMatchers("/admin/**").hasRole("ADMIN"); // Solo usuarios con rol ADMIN
                 auth.anyRequest().authenticated(); // Cualquier usuario autenticado
@@ -39,5 +41,10 @@ public class SecurityConfig {
                 }
             );
         return http.build();
+    }
+
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }

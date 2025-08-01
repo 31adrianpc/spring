@@ -1,5 +1,7 @@
 package com.apc.entity;
 
+import java.util.Base64;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -33,4 +35,11 @@ public class UsuarioEntity {
     private Integer estado;
     @Transient
     private String fotoBase64;
+
+    public String getFotoBase64() {
+        if (foto != null) {
+            return Base64.getEncoder().encodeToString(foto);
+        }
+        return "";
+    }
 }
