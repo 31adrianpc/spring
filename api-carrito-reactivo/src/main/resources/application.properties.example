@@ -1,0 +1,34 @@
+spring.application.name=api-carrito
+
+# Configuración de la base de datos
+#spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+#spring.datasource.url=jdbc:mysql://localhost:3306/carrito
+#spring.datasource.username=
+#spring.datasource.password=
+
+# Configuración de JPA
+#spring.jpa.database=MYSQL
+#spring.jpa.show-sql=true
+#spring.jpa.hibernate.ddl-auto=none
+
+# Configuración de la base de datos reactivo
+spring.r2dbc.url=r2dbc:mysql://localhost:3306/carrito
+spring.r2dbc.username=
+spring.r2dbc.password=
+spring.sql.init.platform=mysql
+
+# Swagger
+# Ruta documentacion del API
+springdoc.api-docs.path=/v2/api-docs
+# Ruta de la interfaz de Swagger
+springdoc.swagger-ui.path=/
+# Especificar activacion/desactivacion de la interfaz de usuario de swagger
+springdoc.swagger-ui.enabled=true
+# Especificar el orden para mostrar los endpoints
+springdoc.swagger-ui.operations-sorter=alpha
+springdoc.open-api.info.title=API REST carrito
+springdoc.open-api.info.description=API para la gestion de un carrito de compras
+springdoc.open-api.info.version=1.0.0
+springdoc.open-api.info.contact.name=
+springdoc.open-api.info.contact.email=
+springdoc.open-api.info.contact.url=
