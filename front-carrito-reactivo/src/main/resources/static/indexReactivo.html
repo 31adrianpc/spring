@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Reactivo</title>
+</head>
+<body>
+    <h1>Productos</h1>
+    <ul id="productos"></ul>
+
+    <h1>Categorías</h1>
+    <ul id="categorias"></ul>
+
+    <script>
+        async function cargarProductos() {
+            const res = await fetch('http://localhost:8080/api/productos');
+            const productos = await res.json();
+            const lista = document.getElementById('productos');
+            productos.forEach(p => {
+                const li = document.createElement('li');
+                li.textContent = `${p.nombreProducto} (${p.categoria.nombreCategoria}) - $${p.precioProducto}`;
+                lista.appendChild(li);
+            });
+        }
+
+        async function cargarCategorias() {
+            const res = await fetch('http://localhost:8080/api/categorias');
+            const categorias = await res.json();
+            const lista = document.getElementById('categorias');
+            categorias.forEach(c => {
+                const li = document.createElement('li');
+                li.textContent = `${c.nombreCategoria}`;
+                lista.appendChild(li);
+            });
+        }
+
+        cargarProductos();
+        cargarCategorias();
+    </script>
+</body>
+</html>
